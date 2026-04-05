@@ -1,0 +1,435 @@
+﻿@{
+    ViewData["Title"] = "Расписание по преподавателям";
+    Layout = "_Layout";
+}
+
+<style>
+    :root {
+        --galaxy: #0B1F5C;
+        --planetary: #334EAC;
+        --sky: #D0E3FF;
+        --ink: #0f172a;
+        --line: rgba(11, 31, 92, .18);
+        --card: #ffffff;
+        --soft: #f6f8ff;
+    }
+
+    /* Заголовок страницы */
+    .page-title {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+    }
+
+    /* Панель управления */
+    .sch-topbar {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+    }
+
+    .sch-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .sch-right {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-icon {
+        width: 44px;
+        height: 38px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--galaxy);
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: .15s;
+    }
+
+        .btn-icon:hover {
+            background: var(--soft);
+        }
+
+    /* Фильтры */
+    .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+        .filters select {
+            height: 38px;
+            border: 1px solid var(--line);
+            background: #fff;
+            padding: 0 10px;
+            font-size: 14px;
+            min-width: 180px;
+            border-radius: 10px;
+        }
+
+    /* Кнопки */
+    .btn-galaxy {
+        background-color: var(--galaxy);
+        border: 1px solid var(--galaxy);
+        color: #fff;
+        border-radius: 10px;
+        height: 38px;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        transition: .15s;
+        text-decoration: none;
+    }
+
+        .btn-galaxy:hover {
+            background-color: var(--planetary);
+            border-color: var(--planetary);
+            color: #fff;
+        }
+
+    .btn-outline-galaxy {
+        color: var(--galaxy);
+        border: 1px solid var(--galaxy);
+        background: #fff;
+        border-radius: 10px;
+        height: 38px;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+        transition: .15s;
+        text-decoration: none;
+    }
+
+        .btn-outline-galaxy:hover {
+            background: var(--galaxy);
+            color: #fff;
+        }
+
+    .grid-wrap {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 14px;
+        background: #fff;
+        overflow: visible;
+        height: auto;
+        box-shadow: 0 1px 2px rgba(0,0,0,.04);
+    }
+
+    .table-grid {
+        display: grid;
+        grid-template-columns: 180px repeat(8, minmax(110px, 1fr));
+        gap: 10px;
+        align-items: start;
+        width: 100%;
+    }
+
+    .headcell {
+        border: 1px solid var(--line);
+        padding: 8px;
+        background: #fff;
+        text-align: center;
+        font-weight: 800;
+        border-radius: 12px;
+        line-height: 1.2;
+        font-size: 12px;
+    }
+
+        .headcell div,
+        .headcell small {
+            white-space: nowrap;
+        }
+
+        .headcell small {
+            font-weight: 500;
+            display: block;
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 11px;
+        }
+
+    .rowlabel {
+        padding-top: 20px;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--galaxy);
+        white-space: nowrap;
+    }
+
+    .slot {
+        min-height: 120px;
+    }
+
+    .lesson {
+        border: 1px solid var(--line);
+        padding: 10px;
+        background: var(--card);
+        border-radius: 12px;
+        text-align: left;
+        line-height: 1.2;
+        box-sizing: border-box;
+        box-shadow: 0 1px 2px rgba(0,0,0,.03);
+    }
+
+        .lesson .title {
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: #0f172a;
+            font-size: 10px;
+        }
+
+        .lesson .meta {
+            font-size: 12px;
+            color: #475569;
+        }
+
+    .lesson-accent {
+        background: linear-gradient(0deg, rgba(208,227,255,.55), rgba(208,227,255,.55)), #fff;
+        border-color: rgba(51,78,172,.35);
+    }
+
+    .lesson .type {
+        display: inline-flex;
+        align-items: center;
+        height: 22px;
+        padding: 0 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        background: var(--sky);
+        color: var(--galaxy);
+        margin-bottom: 8px;
+    }
+
+
+    .muted {
+        color: #64748b;
+        font-size: 12.5px;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="page-title">
+        <div>
+            <h2 class="mb-1">Расписание занятий по преподавателям</h2>
+        </div>
+
+        <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-galaxy">
+            Назад к модулю расписания
+        </a>
+    </div>
+
+    <!-- TOP BAR -->
+    <div class="sch-topbar">
+        <div class="sch-left">
+            <button class="btn-icon" id="prevDay" title="Назад">‹</button>
+
+            <div class="datebox" title="Дата">
+                <input type="date" id="date" />
+            </div>
+
+            <button class="btn-icon" id="nextDay" title="Вперёд">›</button>
+
+            <div class="filters">
+                <select id="filterTeacher">
+                    <option value="">Преподаватель: все</option>
+                </select>
+
+                <select id="filterRoom">
+                    <option value="">Аудитория: все</option>
+                </select>
+
+                <select id="filterGroup">
+                    <option value="">Группа: все</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sch-right">
+            <a asp-controller="Schedule" asp-action="SyncLessons" class="btn-galaxy">
+                Запустить синхронизацию
+            </a>
+        </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid-wrap">
+        <div class="table-grid" id="table"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const pairs = [
+            { no: 1, time: "08:30-09:50" },
+            { no: 2, time: "10:00-11:20" },
+            { no: 3, time: "11:30-12:50" },
+            { no: 4, time: "13:30-14:50" },
+            { no: 5, time: "15:00-16:20" },
+            { no: 6, time: "16:30-17:50" },
+            { no: 7, time: "18:00-19:20" },
+            { no: 8, time: "19:30-20:50" },
+        ];
+
+        const teachers = [
+            "Романов А. А.",
+            "Корунова Н. В.",
+            "Филиппов А. А.",
+            "Эгов Е. Н."
+        ];
+
+        const rooms = [
+            "3-424/1",
+            "3-431",
+            "3-411",
+            "3-418/1"
+        ];
+
+        const groups = [
+            "ПИбд-42",
+            "ПИбд-23",
+            "ПИбд-21"
+        ];
+
+        const lessons = [
+            // Романов (как на скрине: 3 и 4 пары)
+            { teacher: "Романов А. А.", pair: 3, type: "лаб", title: "Конструирование программного обеспечения", room: "3-424/1", groups: ["ПИбд-42"], accent: false },
+            { teacher: "Романов А. А.", pair: 4, type: "лаб", title: "Конструирование программного обеспечения", room: "3-424/1", groups: ["ПИбд-42"], accent: false },
+
+            // Эгов (внизу: 1,2,3,4 пары по 3-431)
+            { teacher: "Эгов Е. Н.", pair: 1, type: "лаб", title: "Основы технологии программирования", room: "3-431", groups: ["ПИбд-23"], accent: true },
+            { teacher: "Эгов Е. Н.", pair: 2, type: "лаб", title: "Основы технологии программирования", room: "3-431", groups: ["ПИбд-23"], accent: true },
+            { teacher: "Эгов Е. Н.", pair: 3, type: "нд", title: "Основы технологии программирования", room: "3-431", groups: ["ПИбд-21"], accent: false },
+            { teacher: "Эгов Е. Н.", pair: 4, type: "лаб", title: "Основы технологии программирования", room: "3-431", groups: ["ПИбд-21"], accent: false },
+
+            // Корунова / Филиппов (оставим пустыми для реалистичности)
+        ];
+
+        // ====== UI ======
+        const elTable = document.getElementById("table");
+        const elDate = document.getElementById("date");
+        const elTeacher = document.getElementById("filterTeacher");
+        const elRoom = document.getElementById("filterRoom");
+        const elGroup = document.getElementById("filterGroup");
+        const elPrev = document.getElementById("prevDay");
+        const elNext = document.getElementById("nextDay");
+
+        elDate.value = "2026-03-30";
+
+        function fillSelect(el, items) {
+            for (const it of items) {
+                const opt = document.createElement("option");
+                opt.value = it;
+                opt.textContent = it;
+                el.appendChild(opt);
+            }
+        }
+        fillSelect(elTeacher, teachers);
+        fillSelect(elRoom, rooms);
+        fillSelect(elGroup, groups);
+
+        function addDays(dateStr, delta) {
+            const d = new Date(dateStr + "T00:00:00");
+            d.setDate(d.getDate() + delta);
+            const yyyy = d.getFullYear();
+            const mm = String(d.getMonth() + 1).padStart(2, "0");
+            const dd = String(d.getDate()).padStart(2, "0");
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        elPrev.addEventListener("click", () => { elDate.value = addDays(elDate.value, -1); render(); });
+        elNext.addEventListener("click", () => { elDate.value = addDays(elDate.value, +1); render(); });
+
+        [elDate, elTeacher, elRoom, elGroup].forEach(x => x.addEventListener("change", render));
+
+        function render() {
+            elTable.innerHTML = "";
+
+            // header row
+            const empty = document.createElement("div");
+            empty.className = "headcell";
+            empty.innerHTML = `<div>Преподаватели</div><small>${formatDate(elDate.value)}</small>`;
+            elTable.appendChild(empty);
+
+            for (const p of pairs) {
+                const h = document.createElement("div");
+                h.className = "headcell";
+                h.innerHTML = `<div>${p.no} пара</div><small>${p.time}</small>`;
+                elTable.appendChild(h);
+            }
+
+            const fTeacher = elTeacher.value;
+            const fRoom = elRoom.value;
+            const fGroup = elGroup.value;
+
+            const teacherRows = teachers.filter(t => !fTeacher || t === fTeacher);
+
+            for (const t of teacherRows) {
+                const rowLabel = document.createElement("div");
+                rowLabel.className = "rowlabel";
+                rowLabel.textContent = t;
+                elTable.appendChild(rowLabel);
+
+                for (const p of pairs) {
+                    const slot = document.createElement("div");
+                    slot.className = "slot";
+
+                    const inCell = lessons
+                        .filter(x => x.teacher === t && x.pair === p.no)
+                        .filter(x => !fRoom || x.room === fRoom)
+                        .filter(x => !fGroup || x.groups.includes(fGroup));
+
+                    for (const l of inCell) {
+                        const card = document.createElement("div");
+                        card.className = "lesson" + (l.accent ? " lesson-accent" : "");
+
+                        card.innerHTML = `
+                                        <div class="type">${escapeHtml(l.type)}</div>
+                                        <div class="title">${escapeHtml(l.title)}</div>
+                                        <div class="meta"><b>Ауд.</b> ${escapeHtml(l.room)}</div>
+                                        <div class="meta"><b>Группы:</b> ${escapeHtml(l.groups.join(", "))}</div>
+                                    `;
+                        slot.appendChild(card);
+                    }
+
+                    elTable.appendChild(slot);
+                }
+            }
+        }
+
+        function formatDate(iso) {
+            const [y, m, d] = iso.split("-");
+            return `${d}.${m}.${y}`;
+        }
+
+        function escapeHtml(s) {
+            return String(s)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        render();
+    </script>
+}
