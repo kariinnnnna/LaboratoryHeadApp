@@ -61,7 +61,8 @@ namespace LaboratoryHeadApp.Controllers
                 Number = element.Number,
                 Type = element.Type,
                 Capacity = element.Capacity,
-                NotUseInSchedule = element.NotUseInSchedule
+                NotUseInSchedule = element.NotUseInSchedule,
+                HasProjector = element.HasProjector
             };
 
             return View(model);

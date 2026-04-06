@@ -4,6 +4,7 @@ using ScheduleServiceContracts.ViewModels;
 public interface IScheduleApiClient
 {
     Task<List<ScheduleItemViewModel>?> GetScheduleAsync();
+    Task ImportGroupSchedulesFromFolderAsync(UniversityScheduleImportFolderBindingModel model);
 
     Task<List<LessonTimeViewModel>?> GetLessonTimesAsync();
     Task<LessonTimeViewModel?> GetLessonTimeByIdAsync(int id);
@@ -23,4 +24,7 @@ public interface IScheduleApiClient
     Task<bool> DeleteDutyScheduleAsync(int id);
     Task<DutyScheduleViewModel?> GetDutyScheduleByIdAsync(int id);
     Task<DutyScheduleViewModel?> UpdateDutyScheduleAsync(DutyScheduleBindingModel model);
+    Task<ScheduleItemViewModel?> CreateScheduleItemAsync(ScheduleItemBindingModel model);
+
+
 }

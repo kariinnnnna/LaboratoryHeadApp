@@ -30,5 +30,13 @@ namespace MOLServiceWebClient
         Task<SoftwareViewModel> GetSoftwareAsync(int id);
         Task<bool> UpdateSoftwareAsync(SoftwareBindingModel model);
         Task<bool> DeleteSoftwareAsync(int id);
+
+        Task<OneCImportResultViewModel?> ImportInventoryFromOneCAsync(OneCImportBindingModel model);
+
+        Task<List<MaterialTechnicalValueViewModel>?> GetMaterialTechnicalValuesAsync();
+        Task<MaterialTechnicalValueViewModel?> GetMaterialTechnicalValueAsync(int id);
+        Task<bool> CreateMaterialTechnicalValueAsync(MaterialTechnicalValueBindingModel model);
+        Task<bool> UpdateMaterialTechnicalValueAsync(MaterialTechnicalValueBindingModel model);
+        Task<bool> DeleteMaterialTechnicalValueAsync(int id);
     }
 }

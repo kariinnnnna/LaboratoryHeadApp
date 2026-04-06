@@ -68,7 +68,6 @@ namespace LaboratoryHeadApp.Controllers
                 Id = element.Id,
                 FullName = element.FullName,
                 Position = element.Position,
-                Department = element.Department,
                 Phone = element.Phone,
                 Email = element.Email
             };

@@ -98,6 +98,7 @@
                                 <th>Тип</th>
                                 <th>Вместимость</th>
                                 <th>Не использовать в расписании</th>
+                                <th>Проектор</th>
                                 <th class="actions-cell">Действия</th>
                             </tr>
                         </thead>
@@ -110,6 +111,7 @@
                                     <td>@item.TypeName</td>
                                     <td>@item.Capacity</td>
                                     <td>@(item.NotUseInSchedule ? "Да" : "Нет")</td>
+                                    <td>@(item.HasProjector ? "Да" : "Нет")</td>
                                     <td class="actions-cell">
                                         <div class="d-flex gap-2">
                                             <a asp-controller="Classroom"

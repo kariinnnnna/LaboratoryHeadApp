@@ -1,4 +1,7 @@
-﻿@{
+﻿@model LaboratoryHeadApp.Models.LessonsRoomsPageViewModel
+@using System.Text.Json
+
+@{
     ViewData["Title"] = "Расписание по аудиториям";
     Layout = "_Layout";
 }
@@ -12,9 +15,9 @@
         --line: rgba(11, 31, 92, .18);
         --card: #ffffff;
         --soft: #f6f8ff;
+        --cell: #fbfcff;
     }
 
-    /* Заголовок страницы */
     .page-title {
         display: flex;
         flex-wrap: wrap;
@@ -24,7 +27,6 @@
         margin-bottom: 12px;
     }
 
-    /* Панель управления */
     .sch-topbar {
         display: flex;
         align-items: end;
@@ -49,23 +51,53 @@
 
     .btn-icon {
         width: 44px;
-        height: 38px;
+        height: 44px;
         border: 1px solid var(--line);
         background: #fff;
         color: var(--galaxy);
-        border-radius: 10px;
+        border-radius: 12px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: .15s;
+        font-size: 18px;
     }
+
+    .datebox {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+        .datebox input[type="date"] {
+            height: 44px;
+            min-width: 150px;
+            padding: 0 14px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: #fff;
+            color: var(--ink);
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 1px 2px rgba(0,0,0,.03);
+        }
+
+            .datebox input[type="date"]:focus {
+                outline: none;
+                border-color: var(--planetary);
+                box-shadow: 0 0 0 3px rgba(51, 78, 172, .12);
+            }
+
+            .datebox input[type="date"]::-webkit-calendar-picker-indicator {
+                cursor: pointer;
+                opacity: .8;
+            }
 
         .btn-icon:hover {
             background: var(--soft);
         }
 
-    /* Фильтры */
     .filters {
         display: flex;
         gap: 10px;
@@ -79,11 +111,10 @@
             background: #fff;
             padding: 0 10px;
             font-size: 14px;
-            min-width: 180px; /* Уменьшаем минимальную ширину */
+            min-width: 180px;
             border-radius: 10px;
         }
 
-    /* Кнопки */
     .btn-galaxy {
         background-color: var(--galaxy);
         border: 1px solid var(--galaxy);
@@ -127,94 +158,148 @@
 
     .grid-wrap {
         border: 1px solid var(--line);
-        border-radius: 14px;
+        border-radius: 16px;
         padding: 14px;
         background: #fff;
-        overflow: visible;
-        height: auto;
         box-shadow: 0 1px 2px rgba(0,0,0,.04);
+        overflow: visible;
     }
 
     .table-grid {
         display: grid;
-        grid-template-columns: 140px repeat(8, minmax(120px, 1fr));
+        grid-template-columns: 170px repeat(8, minmax(0, 1fr));
         gap: 10px;
-        align-items: start;
+        align-items: stretch;
         width: 100%;
     }
 
     .headcell {
         border: 1px solid var(--line);
-        padding: 8px;
+        padding: 10px 8px;
         background: #fff;
         text-align: center;
         font-weight: 800;
-        border-radius: 12px;
+        border-radius: 14px;
         line-height: 1.2;
-        font-size: 11px;
+        font-size: 12px;
+        min-height: 62px;
     }
+
+        .headcell div,
+        .headcell small {
+            white-space: nowrap;
+        }
 
         .headcell small {
             font-weight: 500;
             display: block;
-            margin-top: 3px;
+            margin-top: 4px;
             color: #64748b;
             font-size: 11px;
         }
 
     .rowlabel {
-        padding-top: 28px;
+        min-height: 170px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--cell);
+        padding: 14px 12px;
         font-size: 14px;
         font-weight: 800;
         color: var(--galaxy);
-        white-space: nowrap;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        word-break: break-word;
     }
 
     .slot {
-        min-height: 120px;
+        min-height: 170px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--cell);
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-sizing: border-box;
     }
 
     .lesson {
-        border: 1px solid var(--line);
-        padding: 10px;
-        background: var(--card);
+        border: 1px solid rgba(11, 31, 92, .14);
+        padding: 8px 8px 7px;
+        background: #fff;
         border-radius: 12px;
-        text-align: left;
-        line-height: 1.2;
+        line-height: 1.15;
         box-sizing: border-box;
         box-shadow: 0 1px 2px rgba(0,0,0,.03);
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
-        .lesson .title {
-            font-weight: 900;
-            margin-bottom: 6px;
-            color: #0f172a;
-            font-size: 12px;
-        }
-
-        .lesson .meta {
-            font-size: 12px;
-            color: #475569;
-        }
-
-    .lesson-accent {
-        background: linear-gradient(0deg, rgba(208,227,255,.55), rgba(208,227,255,.55)), #fff;
-        border-color: rgba(51,78,172,.35);
-    }
+/*    .lesson-subgroup {
+        border-left: 4px solid var(--planetary);
+        background: linear-gradient(0deg, rgba(208,227,255,.35), rgba(208,227,255,.35)), #fff;
+    }  */  
 
     .lesson .type {
         display: inline-flex;
         align-items: center;
-        height: 22px;
+        min-height: 22px;
         padding: 0 8px;
         border-radius: 999px;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 800;
         background: var(--sky);
         color: var(--galaxy);
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
 
+    .lesson .subgroup {
+        display: inline-flex;
+        margin: 0 0 6px 0;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        background: #eef2ff;
+        color: #334155;
+    }
+
+    .lesson .title {
+        font-weight: 800;
+        margin-bottom: 6px;
+        color: #0f172a;
+        font-size: 11px;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .lesson .meta {
+        font-size: 11px;
+        color: #475569;
+        margin-top: 2px;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+
+    .lesson-manual {
+        background: linear-gradient(0deg, rgba(255, 244, 214, .85), rgba(255, 244, 214, .85)), #fff;
+        border-color: rgba(217, 119, 6, .35);
+    }
+
+    .lesson .manual-badge {
+        display: inline-flex;
+        margin: 0 0 6px 0;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        background: #fff3cd;
+        color: #92400e;
+    }
 </style>
 
 <div class="container py-4">
@@ -227,8 +312,20 @@
             Назад к модулю расписания
         </a>
     </div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success mb-3">
+            @TempData["SuccessMessage"]
+        </div>
+    }
 
-    <!-- TOP BAR -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger mb-3">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
     <div class="sch-topbar">
         <div class="sch-left">
             <button class="btn-icon" id="prevDay" title="Назад">‹</button>
@@ -255,18 +352,23 @@
         </div>
 
         <div class="sch-right">
-            <a asp-controller="Schedule" asp-action="SyncLessons" class="btn-galaxy" id="btnSync">
-                Запустить синхронизацию
-            </a>
-            <a asp-controller="ClassroomReservation" asp-action="Create"
-               asp-route-date="@ViewBag.Date"
+            <a asp-controller="ClassroomReservation"
+               asp-action="Create"
+               asp-route-date="@Model.SelectedDate"
                class="btn btn-outline-galaxy">
                 Забронировать аудиторию
+            </a>
+
+            <a asp-controller="Schedule"
+               asp-action="SyncLessons"
+               asp-route-returnAction="LessonsRooms"
+               asp-route-date="@Model.SelectedDate"
+               class="btn-galaxy">
+                Запустить синхронизацию
             </a>
         </div>
     </div>
 
-    <!-- GRID -->
     <div class="grid-wrap">
         <div class="table-grid" id="table"></div>
     </div>
@@ -274,7 +376,6 @@
 
 @section Scripts {
     <script>
-        /* ====== ТЕСТОВЫЕ ДАННЫЕ ====== */
         const pairs = [
             { no: 1, time: "08:30-09:50" },
             { no: 2, time: "10:00-11:20" },
@@ -283,42 +384,26 @@
             { no: 5, time: "15:00-16:20" },
             { no: 6, time: "16:30-17:50" },
             { no: 7, time: "18:00-19:20" },
-            { no: 8, time: "19:30-20:50" },
+            { no: 8, time: "19:30-20:50" }
         ];
 
-        const rooms = ["3-411", "3-418/1", "3-418/2", "3-419"];
+        const rooms = @Html.Raw(JsonSerializer.Serialize(Model.Classrooms));
+        const teachers = @Html.Raw(JsonSerializer.Serialize(Model.Teachers));
+        const groups = @Html.Raw(JsonSerializer.Serialize(Model.Groups));
 
-        const teachers = [
-            "Ларионова О Б", "Скалкин А М", "Моисеев В В",
-            "Андреев И А", "Ровенская А И", "Чекина А В"
-        ];
+        const lessons = @Html.Raw(JsonSerializer.Serialize(
+        Model.Lessons.Select(x => new
+        {
+        room = x.ClassroomNumber,
+        pair = x.PairNumber,
+        type = x.TypeName,
+        title = x.Subject,
+        teacher = x.TeacherName,
+        group = x.GroupName,
+        subgroup = x.Subgroup,
+        isImported = x.IsImported
+        })));
 
-        const groups = [
-            "УПАСбд-42", "УПАСбд-41", "ПИбд-24", "ИСЭбд-41",
-            "ИСЭбд-22", "ПИбд-21", "ИСЭбд-21"
-        ];
-
-        const lessons = [
-            { room: "3-411", pair: 1, type: "лаб", title: "Сетевые технологии в экономике", teacher: "Ларионова О Б", groups: ["УПАСбд-42", "УПАСбд-41"], accent: true },
-            { room: "3-411", pair: 2, type: "лаб", title: "Сетевые технологии в экономике", teacher: "Ларионова О Б", groups: ["УПАСбд-42", "УПАСбд-41"], accent: true },
-
-            { room: "3-418/1", pair: 1, type: "лаб", title: "Базы данных", teacher: "Скалкин А М", groups: ["ПИбд-24"], accent: false },
-            { room: "3-418/1", pair: 2, type: "лаб", title: "Базы данных", teacher: "Скалкин А М", groups: ["ПИбд-24"], accent: false },
-            { room: "3-418/1", pair: 3, type: "лаб", title: "Базы данных", teacher: "Скалкин А М", groups: ["ИСЭбд-22"], accent: false },
-            { room: "3-418/1", pair: 4, type: "лаб", title: "Базы данных", teacher: "Скалкин А М", groups: ["ИСЭбд-22"], accent: false },
-
-            { room: "3-418/2", pair: 1, type: "лаб", title: "Информационная безопасность", teacher: "Моисеев В В", groups: ["ИСЭбд-41"], accent: false },
-            { room: "3-418/2", pair: 2, type: "лаб", title: "Информационная безопасность", teacher: "Моисеев В В", groups: ["ИСЭбд-41"], accent: false },
-
-            { room: "3-418/3", pair: 2, type: "лаб", title: "Современные сервисные платформенные решения", teacher: "Андреев И А", groups: ["ПИбд-21"], accent: false },
-            { room: "3-418/3", pair: 3, type: "лаб", title: "Современные сервисные платформенные решения", teacher: "Андреев И А", groups: ["ПИбд-21"], accent: false },
-            { room: "3-418/3", pair: 4, type: "лаб", title: "Организация вычислительных машин и систем", teacher: "Андреев И А", groups: ["ИСЭбд-21"], accent: false },
-
-            { room: "3-419", pair: 2, type: "пр", title: "Основы ПИ", teacher: "Ровенская А И", groups: ["ПИбд-24"], accent: false },
-            { room: "3-419", pair: 4, type: "пр", title: "Основы теории систем", teacher: "Чекина А В", groups: ["ИСЭбд-21"], accent: false },
-        ];
-
-        /* ====== UI ====== */
         const elTable = document.getElementById("table");
         const elDate = document.getElementById("date");
         const elRoom = document.getElementById("filterRoom");
@@ -327,8 +412,7 @@
         const elPrev = document.getElementById("prevDay");
         const elNext = document.getElementById("nextDay");
 
-        // дата по умолчанию
-        elDate.value = "2025-12-12";
+        elDate.value = "@Model.SelectedDate";
 
         function fillSelect(el, items) {
             for (const it of items) {
@@ -338,6 +422,7 @@
                 el.appendChild(opt);
             }
         }
+
         fillSelect(elRoom, rooms);
         fillSelect(elTeacher, teachers);
         fillSelect(elGroup, groups);
@@ -351,15 +436,23 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
-        elPrev.addEventListener("click", () => { elDate.value = addDays(elDate.value, -1); render(); });
-        elNext.addEventListener("click", () => { elDate.value = addDays(elDate.value, +1); render(); });
+        elPrev.addEventListener("click", () => {
+            window.location.href = `/Schedule/LessonsRooms?date=${addDays(elDate.value, -1)}`;
+        });
 
-        [elDate, elRoom, elTeacher, elGroup].forEach(x => x.addEventListener("change", render));
+        elNext.addEventListener("click", () => {
+            window.location.href = `/Schedule/LessonsRooms?date=${addDays(elDate.value, 1)}`;
+        });
+
+        elDate.addEventListener("change", () => {
+            window.location.href = `/Schedule/LessonsRooms?date=${elDate.value}`;
+        });
+
+        [elRoom, elTeacher, elGroup].forEach(x => x.addEventListener("change", render));
 
         function render() {
             elTable.innerHTML = "";
 
-            // header row (пустая ячейка над аудиториями)
             const empty = document.createElement("div");
             empty.className = "headcell";
             empty.innerHTML = `<div>Аудитории</div><small>${formatDate(elDate.value)}</small>`;
@@ -376,38 +469,58 @@
             const fTeacher = elTeacher.value;
             const fGroup = elGroup.value;
 
-            for (const r of rooms) {
-                const roomCell = document.createElement("div");
-                roomCell.className = "rowlabel";
-                roomCell.textContent = r;
-                elTable.appendChild(roomCell);
+            const filteredLessons = lessons
+                .filter(x => !fRoom || x.room === fRoom)
+                .filter(x => !fTeacher || x.teacher === fTeacher)
+                .filter(x => !fGroup || x.group === fGroup);
+
+            const roomRows = rooms.filter(r =>
+                filteredLessons.some(x => x.room === r)
+            );
+
+            for (const r of roomRows) {
+                const rowLabel = document.createElement("div");
+                rowLabel.className = "rowlabel";
+                rowLabel.textContent = r;
+                elTable.appendChild(rowLabel);
 
                 for (const p of pairs) {
                     const slot = document.createElement("div");
                     slot.className = "slot";
 
-                    const inCell = lessons
-                        .filter(x => x.room === r && x.pair === p.no)
-                        .filter(x => !fRoom || x.room === fRoom)
-                        .filter(x => !fTeacher || x.teacher === fTeacher)
-                        .filter(x => !fGroup || x.groups.includes(fGroup));
+                    const inCell = filteredLessons
+                        .filter(x => x.room === r && x.pair === p.no);
 
                     for (const l of inCell) {
                         const card = document.createElement("div");
-                        card.className = "lesson" + (l.accent ? " lesson-accent" : "");
+                        card.className = "lesson" + (!l.isImported ? " lesson-manual" : "");
 
                         card.innerHTML = `
-                                        <div class="type">${escapeHtml(l.type)}</div>
-                                        <div class="title">${escapeHtml(l.title)}</div>
-                                        <div class="meta"><b>Ауд.</b> ${escapeHtml(l.room)}</div>
-                                        <div class="meta"><b>Преп.</b> ${escapeHtml(l.teacher)}</div>
-                                        <div class="meta"><b>Группы:</b> ${escapeHtml(l.groups.join(", "))}</div>
-                                    `;
+                                    <div class="type">${escapeHtml(mapType(l.type ?? ""))}</div>
+                                            ${!l.isImported ? `<div class="manual-badge">Бронь</div>` : ""}
+                                    ${l.subgroup ? `<div class="subgroup">${escapeHtml(l.subgroup)}</div>` : ""}
+                                    <div class="title">${escapeHtml(l.title ?? "")}</div>
+                                    <div class="meta"><b>Преп.</b><br>${escapeHtml(l.teacher ?? "")}</div>
+                                    <div class="meta"><b>Группа</b><br>${escapeHtml(l.group ?? "")}</div>
+                                `;
+
                         slot.appendChild(card);
                     }
 
                     elTable.appendChild(slot);
                 }
+            }
+        }
+
+        function mapType(type) {
+            switch ((type || "").toLowerCase()) {
+                case "lecture": return "лек";
+                case "practice": return "пр";
+                case "laboratory": return "лаб";
+                case "consultation": return "конс";
+                case "exam": return "экз";
+                case "test": return "зач";
+                default: return type;
             }
         }
 

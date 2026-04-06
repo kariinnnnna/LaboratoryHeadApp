@@ -175,6 +175,63 @@ namespace MOLServiceWebClient
             var result = await response.Content.ReadFromJsonAsync<bool>();
             return result;
         }
+        public async Task<OneCImportResultViewModel?> ImportInventoryFromOneCAsync(OneCImportBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/OneCImport/ImportInventory", model);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<OneCImportResultViewModel>();
+        }
+        public async Task<List<MaterialTechnicalValueViewModel>?> GetMaterialTechnicalValuesAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<MaterialTechnicalValueViewModel>>(
+                "api/MaterialTechnicalValue/GetAll");
+        }
+
+        public async Task<MaterialTechnicalValueViewModel?> GetMaterialTechnicalValueAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/MaterialTechnicalValue/GetElement",
+                new MaterialTechnicalValueSearchModel { Id = id });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<MaterialTechnicalValueViewModel>();
+        }
+
+        public async Task<bool> CreateMaterialTechnicalValueAsync(MaterialTechnicalValueBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/MaterialTechnicalValue/Create",
+                model);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> UpdateMaterialTechnicalValueAsync(MaterialTechnicalValueBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/MaterialTechnicalValue/Update",
+                model);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteMaterialTechnicalValueAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/MaterialTechnicalValue/Delete",
+                new MaterialTechnicalValueBindingModel { Id = id });
+
+            return response.IsSuccessStatusCode;
+        }
 
     }
 }

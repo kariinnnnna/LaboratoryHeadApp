@@ -11,4 +11,8 @@
     <ProjectReference Include="..\..\..\Schedule\ScheduleService\ScheduleServiceContracts\ScheduleServiceContracts.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\OneCImport\" />
+  </ItemGroup>
+
 </Project>

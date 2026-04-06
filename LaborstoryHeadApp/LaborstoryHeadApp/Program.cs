@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // MVC
 builder.Services.AddControllersWithViews();
 
+
 // Schedule API
 builder.Services.AddHttpClient<IScheduleApiClient, ScheduleApiClient>(client =>
 {

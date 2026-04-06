@@ -159,5 +159,29 @@ public class ScheduleApiClient : IScheduleApiClient
 
         return await response.Content.ReadFromJsonAsync<bool>();
     }
+    public async Task ImportGroupSchedulesFromFolderAsync(UniversityScheduleImportFolderBindingModel model)
+    {
+        var response = await _client.PostAsJsonAsync(
+            "api/UniversitySchedule/ImportGroupSchedulesFromFolder",
+            model);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при синхронизации расписания: {errorText}");
+        }
+    }
+    public async Task<ScheduleItemViewModel?> CreateScheduleItemAsync(ScheduleItemBindingModel model)
+    {
+        var response = await _client.PostAsJsonAsync("api/ScheduleItem/Create", model);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"{errorText}");
+        }
+
+        return await response.Content.ReadFromJsonAsync<ScheduleItemViewModel>();
+    }
 
 }

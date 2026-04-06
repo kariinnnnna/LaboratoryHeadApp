@@ -1,0 +1,226 @@
+﻿@model MolServiceContracts.ViewModels.MaterialTechnicalValueViewModel
+
+@{
+    ViewData["Title"] = "Карточка оборудования";
+    Layout = "_Layout";
+}
+
+<style>
+    :root {
+        --galaxy: #0B1F5C;
+        --planetary: #334EAC;
+        --sky: #D0E3FF;
+        --soft: #f8f9fc;
+        --line: rgba(11, 31, 92, .15);
+    }
+
+    .btn-galaxy {
+        background-color: var(--galaxy);
+        border-color: var(--galaxy);
+        color: #fff;
+    }
+
+        .btn-galaxy:hover,
+        .btn-galaxy:focus {
+            background-color: var(--planetary);
+            border-color: var(--planetary);
+            color: #fff;
+        }
+
+    .btn-outline-galaxy {
+        color: var(--galaxy);
+        border-color: var(--galaxy);
+    }
+
+        .btn-outline-galaxy:hover,
+        .btn-outline-galaxy:focus {
+            background-color: var(--galaxy);
+            color: #fff;
+        }
+
+    .info-card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 8px 22px rgba(11, 31, 92, .06);
+    }
+
+    .info-header {
+        padding: 18px 22px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #fff, var(--soft));
+        border-radius: 18px 18px 0 0;
+    }
+
+    .info-body {
+        padding: 22px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+    }
+
+    .info-item {
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+    }
+
+    .info-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 6px;
+    }
+
+    .info-value {
+        font-weight: 600;
+        color: #0f172a;
+        word-break: break-word;
+    }
+
+    .section-card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 8px 22px rgba(11, 31, 92, .05);
+        height: 100%;
+    }
+
+    .section-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--galaxy);
+        margin-bottom: 10px;
+    }
+
+    .section-text {
+        color: #495057;
+        margin-bottom: 16px;
+    }
+
+    .muted-note {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        <div>
+            <h2 class="mb-1">Карточка оборудования</h2>
+            <div class="text-muted">@Model.FullName</div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a asp-action="Index" class="btn btn-outline-galaxy">Назад</a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-galaxy">Редактировать</a>
+        </div>
+    </div>
+
+    <div class="info-card mb-4">
+        <div class="info-header">
+            <h5 class="mb-0">Основная информация</h5>
+        </div>
+        <div class="info-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Код / инвентарный номер</div>
+                    <div class="info-value">@Model.InventoryNumber</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Наименование</div>
+                    <div class="info-value">@Model.FullName</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Количество</div>
+                    <div class="info-value">@Model.Quantity</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Аудитория</div>
+                    <div class="info-value">
+                        @(string.IsNullOrWhiteSpace(Model.ClassroomNumber) ? "Не закреплено" : Model.ClassroomNumber)
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Материально-ответственное лицо</div>
+                    <div class="info-value">@Model.MaterialResponsiblePersonName</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Местоположение</div>
+                    <div class="info-value">
+                        @(string.IsNullOrWhiteSpace(Model.Location) ? "Не указано" : Model.Location)
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Стоимость</div>
+                    <div class="info-value">@Model.Cost</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Описание</div>
+                    <div class="info-value">
+                        @(string.IsNullOrWhiteSpace(Model.Description) ? "Не указано" : Model.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-4">
+            <div class="section-card">
+                <div class="section-title">Закрепление за аудиторией</div>
+                <div class="section-text">
+                    Здесь позже можно будет назначать аудиторию для конкретного оборудования и изменять текущее закрепление.
+                </div>
+
+                <div class="mb-3">
+                    <div class="muted-note">
+                        Текущий статус:
+                        <strong>@(string.IsNullOrWhiteSpace(Model.ClassroomNumber) ? "не закреплено" : $"аудитория {Model.ClassroomNumber}")</strong>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-galaxy" disabled>
+                    Привязать аудиторию
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="section-card">
+                <div class="section-title">Программное обеспечение</div>
+                <div class="section-text">
+                    В этом блоке позже появится список ПО, связанного с оборудованием, и возможность добавлять новые записи.
+                </div>
+
+                <button type="button" class="btn btn-outline-galaxy" disabled>
+                    Добавить ПО
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="section-card">
+                <div class="section-title">История перемещений</div>
+                <div class="section-text">
+                    Здесь позже будет храниться история перемещений оборудования между аудиториями и подразделениями.
+                </div>
+
+                <button type="button" class="btn btn-outline-galaxy" disabled>
+                    Добавить перемещение
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
