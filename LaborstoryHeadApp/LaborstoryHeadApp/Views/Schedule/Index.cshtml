@@ -175,5 +175,74 @@
             </div>
         </div>
 
+        <!-- Справочник аудиторий -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Аудитории</h5>
+                    <p class="card-text">
+                        Справочник аудиторий, используемых в расписании.
+                    </p>
+                    <ul class="small mb-3">
+                        <li>Номер аудитории</li>
+                        <li>Вместимость</li>
+                        <li>Тип аудитории</li>
+                    </ul>
+                    <div class="mt-auto">
+                        <a asp-controller="Classroom" asp-action="Index"
+                           class="btn btn-outline-galaxy">
+                            Справочник аудиторий
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Справочник преподавателей -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Преподаватели</h5>
+                    <p class="card-text">
+                        Справочник преподавателей, участвующих в учебном процессе.
+                    </p>
+                    <ul class="small mb-3">
+                        <li>ФИО преподавателя</li>
+                        <li>Должность</li>
+                        <li>Учебная нагрузка</li>
+                    </ul>
+                    <div class="mt-auto">
+                        <a asp-controller="Teacher" asp-action="Index"
+                           class="btn btn-outline-galaxy">
+                            Справочник преподавателей
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Справочник групп -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Группы</h5>
+                    <p class="card-text">
+                        Справочник учебных групп, используемых в расписании.
+                    </p>
+                    <ul class="small mb-3">
+                        <li>Название группы</li>
+                        <li>Курс</li>
+                        <li>Направление подготовки</li>
+                    </ul>
+                    <div class="mt-auto">
+                        <a asp-controller="Group" asp-action="Index"
+                           class="btn btn-outline-galaxy">
+                            Справочник групп
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

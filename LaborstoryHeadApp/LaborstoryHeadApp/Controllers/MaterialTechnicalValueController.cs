@@ -16,10 +16,36 @@ namespace LaboratoryHeadApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 20)
         {
-            var result = await _client.GetMaterialTechnicalValuesAsync();
-            return View(result ?? new List<MolServiceContracts.ViewModels.MaterialTechnicalValueViewModel>());
+            var allItems = await _client.GetMaterialTechnicalValuesAsync()
+                          ?? new List<MolServiceContracts.ViewModels.MaterialTechnicalValueViewModel>();
+
+            var totalCount = allItems.Count;
+            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            if (totalPages > 0 && page > totalPages)
+            {
+                page = totalPages;
+            }
+
+            var items = allItems
+                .OrderBy(x => x.FullName)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.TotalCount = totalCount;
+
+            return View(items);
         }
 
         [HttpGet]
@@ -30,6 +56,11 @@ namespace LaboratoryHeadApp.Controllers
             {
                 return NotFound();
             }
+
+            var softwareRecords = await _client.GetSoftwareRecordsByMaterialTechnicalValueAsync(id)
+                                 ?? new List<MolServiceContracts.ViewModels.SoftwareRecordViewModel>();
+
+            ViewBag.SoftwareRecords = softwareRecords;
 
             return View(element);
         }
@@ -79,7 +110,6 @@ namespace LaboratoryHeadApp.Controllers
                 Quantity = element.Quantity,
                 Description = element.Description,
                 Location = element.Location,
-                Cost = element.Cost,
                 MaterialResponsiblePersonId = element.MaterialResponsiblePersonId
             };
 
@@ -139,6 +169,79 @@ namespace LaboratoryHeadApp.Controllers
                     Text = x.FullName
                 })
                 .ToList();
+        }
+        [HttpGet]
+        public async Task<IActionResult> AssignClassroom(int id)
+        {
+            var element = await _client.GetMaterialTechnicalValueAsync(id);
+            if (element == null)
+            {
+                return NotFound();
+            }
+
+            var classrooms = await _client.GetClassroomsAsync() ?? new();
+
+            ViewBag.Classrooms = classrooms
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Number
+                })
+                .ToList();
+
+            var model = new MaterialTechnicalValueBindingModel
+            {
+                Id = element.Id,
+                InventoryNumber = element.InventoryNumber,
+                FullName = element.FullName,
+                Quantity = element.Quantity,
+                Description = element.Description,
+                Location = element.Location,
+                MaterialResponsiblePersonId = element.MaterialResponsiblePersonId,
+                ClassroomId = element.ClassroomId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AssignClassroom(MaterialTechnicalValueBindingModel model)
+        {
+            var current = await _client.GetMaterialTechnicalValueAsync(model.Id);
+            if (current == null)
+            {
+                return NotFound();
+            }
+
+            var updateModel = new MaterialTechnicalValueBindingModel
+            {
+                Id = current.Id,
+                InventoryNumber = current.InventoryNumber,
+                FullName = current.FullName,
+                Quantity = current.Quantity,
+                Description = current.Description,
+                Location = current.Location,
+                MaterialResponsiblePersonId = current.MaterialResponsiblePersonId,
+                ClassroomId = model.ClassroomId
+            };
+
+            var result = await _client.UpdateMaterialTechnicalValueAsync(updateModel);
+            if (!result)
+            {
+                var classrooms = await _client.GetClassroomsAsync() ?? new();
+                ViewBag.Classrooms = classrooms
+                    .Select(x => new SelectListItem
+                    {
+                        Value = x.Id.ToString(),
+                        Text = x.Number
+                    })
+                    .ToList();
+
+                ModelState.AddModelError(string.Empty, "Не удалось привязать аудиторию");
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Details), new { id = model.Id });
         }
     }
 }

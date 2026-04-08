@@ -64,6 +64,10 @@
         font-size: 18px;
     }
 
+        .btn-icon:hover {
+            background: var(--soft);
+        }
+
     .datebox {
         position: relative;
         display: inline-flex;
@@ -88,15 +92,6 @@
                 border-color: var(--planetary);
                 box-shadow: 0 0 0 3px rgba(51, 78, 172, .12);
             }
-
-            .datebox input[type="date"]::-webkit-calendar-picker-indicator {
-                cursor: pointer;
-                opacity: .8;
-            }
-
-        .btn-icon:hover {
-            background: var(--soft);
-        }
 
     .filters {
         display: flex;
@@ -185,8 +180,7 @@
         min-height: 62px;
     }
 
-        .headcell div,
-        .headcell small {
+        .headcell div, .headcell small {
             white-space: nowrap;
         }
 
@@ -237,10 +231,10 @@
         word-break: break-word;
     }
 
-/*    .lesson-subgroup {
-        border-left: 4px solid var(--planetary);
-        background: linear-gradient(0deg, rgba(208,227,255,.35), rgba(208,227,255,.35)), #fff;
-    }  */  
+    .lesson-manual {
+        background: linear-gradient(0deg, rgba(255, 244, 214, .85), rgba(255, 244, 214, .85)), #fff;
+        border-color: rgba(217, 119, 6, .35);
+    }
 
     .lesson .type {
         display: inline-flex;
@@ -255,6 +249,7 @@
         margin-bottom: 6px;
     }
 
+    .lesson .manual-badge,
     .lesson .subgroup {
         display: inline-flex;
         margin: 0 0 6px 0;
@@ -262,6 +257,14 @@
         border-radius: 999px;
         font-size: 11px;
         font-weight: 700;
+    }
+
+    .lesson .manual-badge {
+        background: #fff3cd;
+        color: #92400e;
+    }
+
+    .lesson .subgroup {
         background: #eef2ff;
         color: #334155;
     }
@@ -284,22 +287,6 @@
         overflow-wrap: anywhere;
         word-break: break-word;
     }
-
-    .lesson-manual {
-        background: linear-gradient(0deg, rgba(255, 244, 214, .85), rgba(255, 244, 214, .85)), #fff;
-        border-color: rgba(217, 119, 6, .35);
-    }
-
-    .lesson .manual-badge {
-        display: inline-flex;
-        margin: 0 0 6px 0;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 11px;
-        font-weight: 700;
-        background: #fff3cd;
-        color: #92400e;
-    }
 </style>
 
 <div class="container py-4">
@@ -312,25 +299,22 @@
             Назад к модулю расписания
         </a>
     </div>
+
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success mb-3">
-            @TempData["SuccessMessage"]
-        </div>
+        <div class="alert alert-success mb-3">@TempData["SuccessMessage"]</div>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger mb-3">
-            @TempData["ErrorMessage"]
-        </div>
+        <div class="alert alert-danger mb-3">@TempData["ErrorMessage"]</div>
     }
 
     <div class="sch-topbar">
         <div class="sch-left">
             <button class="btn-icon" id="prevDay" title="Назад">‹</button>
 
-            <div class="datebox" title="Дата">
+            <div class="datebox">
                 <input type="date" id="date" />
             </div>
 
@@ -474,9 +458,11 @@
                 .filter(x => !fTeacher || x.teacher === fTeacher)
                 .filter(x => !fGroup || x.group === fGroup);
 
-            const roomRows = rooms.filter(r =>
-                filteredLessons.some(x => x.room === r)
-            );
+            const roomRows = rooms.filter(r => {
+                if (fRoom && r !== fRoom) return false;
+                if (!fTeacher && !fGroup) return true;
+                return filteredLessons.some(x => x.room === r);
+            });
 
             for (const r of roomRows) {
                 const rowLabel = document.createElement("div");
@@ -497,13 +483,12 @@
 
                         card.innerHTML = `
                                     <div class="type">${escapeHtml(mapType(l.type ?? ""))}</div>
-                                            ${!l.isImported ? `<div class="manual-badge">Бронь</div>` : ""}
+                                    ${!l.isImported ? `<div class="manual-badge">Бронь</div>` : ""}
                                     ${l.subgroup ? `<div class="subgroup">${escapeHtml(l.subgroup)}</div>` : ""}
                                     <div class="title">${escapeHtml(l.title ?? "")}</div>
                                     <div class="meta"><b>Преп.</b><br>${escapeHtml(l.teacher ?? "")}</div>
                                     <div class="meta"><b>Группа</b><br>${escapeHtml(l.group ?? "")}</div>
                                 `;
-
                         slot.appendChild(card);
                     }
 

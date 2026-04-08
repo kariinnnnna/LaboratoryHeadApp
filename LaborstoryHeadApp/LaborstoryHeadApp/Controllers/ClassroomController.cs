@@ -104,5 +104,28 @@ namespace LaboratoryHeadApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ImportFromCore()
+        {
+            try
+            {
+                var result = await _client.ImportClassroomsFromCoreAsync();
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Синхронизация аудиторий из core успешно выполнена.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Не удалось выполнить синхронизацию аудиторий.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

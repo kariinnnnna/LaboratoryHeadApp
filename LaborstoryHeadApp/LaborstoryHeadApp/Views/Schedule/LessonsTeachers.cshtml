@@ -18,319 +18,125 @@
         --cell: #fbfcff;
     }
 
-    .page-title {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 12px;
-    }
-
-    .sch-topbar {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 14px;
-    }
-
-    .sch-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .sch-right {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
+    .page-title, .sch-topbar, .sch-left, .sch-right { display:flex; flex-wrap:wrap; gap:12px; }
+    .page-title { align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .sch-topbar { align-items:end; justify-content:space-between; margin-bottom:14px; }
+    .sch-left { align-items:center; gap:10px; }
+    .sch-right { gap:10px; }
 
     .btn-icon {
-        width: 44px;
-        height: 44px;
-        border: 1px solid var(--line);
-        background: #fff;
-        color: var(--galaxy);
-        border-radius: 12px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: .15s;
-        font-size: 18px;
+        width: 44px; height: 44px; border: 1px solid var(--line); background: #fff; color: var(--galaxy);
+        border-radius: 12px; display: inline-flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: .15s; font-size: 18px;
+    }
+    .btn-icon:hover { background: var(--soft); }
+
+    .datebox input[type="date"] {
+        height: 44px; min-width: 150px; padding: 0 14px; border: 1px solid var(--line);
+        border-radius: 12px; background: #fff; color: var(--ink); font-size: 16px; font-weight: 600;
     }
 
-        .btn-icon:hover {
-            background: var(--soft);
-        }
-
-    .filters {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-items: center;
+    .filters { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .filters select {
+        height: 38px; border: 1px solid var(--line); background: #fff;
+        padding: 0 10px; font-size: 14px; min-width: 180px; border-radius: 10px;
     }
 
-        .filters select {
-            height: 38px;
-            border: 1px solid var(--line);
-            background: #fff;
-            padding: 0 10px;
-            font-size: 14px;
-            min-width: 180px;
-            border-radius: 10px;
-        }
-
-    .btn-galaxy {
-        background-color: var(--galaxy);
-        border: 1px solid var(--galaxy);
-        color: #fff;
-        border-radius: 10px;
-        height: 38px;
-        padding: 0 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        white-space: nowrap;
-        transition: .15s;
-        text-decoration: none;
+    .btn-galaxy, .btn-outline-galaxy {
+        border-radius: 10px; height: 38px; padding: 0 14px; display: inline-flex; align-items: center;
+        gap: 8px; white-space: nowrap; transition: .15s; text-decoration: none;
     }
-
-        .btn-galaxy:hover {
-            background-color: var(--planetary);
-            border-color: var(--planetary);
-            color: #fff;
-        }
-
-    .btn-outline-galaxy {
-        color: var(--galaxy);
-        border: 1px solid var(--galaxy);
-        background: #fff;
-        border-radius: 10px;
-        height: 38px;
-        padding: 0 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        white-space: nowrap;
-        transition: .15s;
-        text-decoration: none;
-    }
-
-        .btn-outline-galaxy:hover {
-            background: var(--galaxy);
-            color: #fff;
-        }
+    .btn-galaxy { background-color: var(--galaxy); border: 1px solid var(--galaxy); color: #fff; }
+    .btn-galaxy:hover { background-color: var(--planetary); border-color: var(--planetary); color: #fff; }
+    .btn-outline-galaxy { color: var(--galaxy); border: 1px solid var(--galaxy); background: #fff; }
+    .btn-outline-galaxy:hover { background: var(--galaxy); color: #fff; }
 
     .grid-wrap {
-        border: 1px solid var(--line);
-        border-radius: 16px;
-        padding: 14px;
-        background: #fff;
-        box-shadow: 0 1px 2px rgba(0,0,0,.04);
-        overflow: visible;
+        border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,.04); overflow: visible;
     }
 
     .table-grid {
-        display: grid;
-        grid-template-columns: 170px repeat(8, minmax(0, 1fr));
-        gap: 10px;
-        align-items: stretch;
-        width: 100%;
+        display: grid; grid-template-columns: 170px repeat(8, minmax(0, 1fr));
+        gap: 10px; align-items: stretch; width: 100%;
     }
 
     .headcell {
-        border: 1px solid var(--line);
-        padding: 10px 8px;
-        background: #fff;
-        text-align: center;
-        font-weight: 800;
-        border-radius: 14px;
-        line-height: 1.2;
-        font-size: 12px;
-        min-height: 62px;
+        border: 1px solid var(--line); padding: 10px 8px; background: #fff; text-align: center;
+        font-weight: 800; border-radius: 14px; line-height: 1.2; font-size: 12px; min-height: 62px;
     }
-
-        .headcell div,
-        .headcell small {
-            white-space: nowrap;
-        }
-
-        .headcell small {
-            font-weight: 500;
-            display: block;
-            margin-top: 4px;
-            color: #64748b;
-            font-size: 11px;
-        }
+    .headcell div, .headcell small { white-space: nowrap; }
+    .headcell small { font-weight: 500; display: block; margin-top: 4px; color: #64748b; font-size: 11px; }
 
     .rowlabel {
-        min-height: 170px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--cell);
-        padding: 14px 12px;
-        font-size: 14px;
-        font-weight: 800;
-        color: var(--galaxy);
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        word-break: break-word;
+        min-height: 170px; border: 1px solid var(--line); border-radius: 14px; background: var(--cell);
+        padding: 14px 12px; font-size: 14px; font-weight: 800; color: var(--galaxy);
+        display: flex; align-items: flex-start; justify-content: flex-start; word-break: break-word;
     }
 
     .slot {
-        min-height: 170px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--cell);
-        padding: 8px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        box-sizing: border-box;
+        min-height: 170px; border: 1px solid var(--line); border-radius: 14px; background: var(--cell);
+        padding: 8px; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box;
     }
 
     .lesson {
-        border: 1px solid rgba(11, 31, 92, .14);
-        padding: 8px 8px 7px;
-        background: #fff;
-        border-radius: 12px;
-        line-height: 1.15;
-        box-sizing: border-box;
-        box-shadow: 0 1px 2px rgba(0,0,0,.03);
-        overflow-wrap: anywhere;
-        word-break: break-word;
+        border: 1px solid rgba(11, 31, 92, .14); padding: 8px 8px 7px; background: #fff;
+        border-radius: 12px; line-height: 1.15; box-sizing: border-box;
+        box-shadow: 0 1px 2px rgba(0,0,0,.03); overflow-wrap: anywhere; word-break: break-word;
     }
 
-    .lesson-subgroup {
-        border-left: 4px solid var(--planetary);
-        background: linear-gradient(0deg, rgba(208,227,255,.35), rgba(208,227,255,.35)), #fff;
+    .lesson-manual {
+        background: linear-gradient(0deg, rgba(255, 244, 214, .85), rgba(255, 244, 214, .85)), #fff;
+        border-color: rgba(217, 119, 6, .35);
     }
 
     .lesson .type {
-        display: inline-flex;
-        align-items: center;
-        min-height: 22px;
-        padding: 0 8px;
-        border-radius: 999px;
-        font-size: 11px;
-        font-weight: 800;
-        background: var(--sky);
-        color: var(--galaxy);
-        margin-bottom: 6px;
+        display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: 999px;
+        font-size: 11px; font-weight: 800; background: var(--sky); color: var(--galaxy); margin-bottom: 6px;
     }
 
-    .lesson .subgroup {
-        display: inline-flex;
-        margin: 0 0 6px 0;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 11px;
-        font-weight: 700;
-        background: #eef2ff;
-        color: #334155;
+    .lesson .manual-badge, .lesson .subgroup {
+        display: inline-flex; margin: 0 0 6px 0; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700;
     }
+    .lesson .manual-badge { background: #fff3cd; color: #92400e; }
+    .lesson .subgroup { background: #eef2ff; color: #334155; }
 
     .lesson .title {
-        font-weight: 800;
-        margin-bottom: 6px;
-        color: #0f172a;
-        font-size: 11px;
-        line-height: 1.15;
-        overflow-wrap: anywhere;
-        word-break: break-word;
+        font-weight: 800; margin-bottom: 6px; color: #0f172a; font-size: 11px; line-height: 1.15;
+        overflow-wrap: anywhere; word-break: break-word;
     }
 
     .lesson .meta {
-        font-size: 11px;
-        color: #475569;
-        margin-top: 2px;
-        line-height: 1.15;
-        overflow-wrap: anywhere;
-        word-break: break-word;
+        font-size: 11px; color: #475569; margin-top: 2px; line-height: 1.15;
+        overflow-wrap: anywhere; word-break: break-word;
     }
-
-    .datebox {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-    }
-
-        .datebox input[type="date"] {
-            height: 44px;
-            min-width: 150px;
-            padding: 0 14px;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: #fff;
-            color: var(--ink);
-            font-size: 16px;
-            font-weight: 600;
-            box-shadow: 0 1px 2px rgba(0,0,0,.03);
-        }
-
-            .datebox input[type="date"]:focus {
-                outline: none;
-                border-color: var(--planetary);
-                box-shadow: 0 0 0 3px rgba(51, 78, 172, .12);
-            }
-
-            .datebox input[type="date"]::-webkit-calendar-picker-indicator {
-                cursor: pointer;
-                opacity: .8;
-            }
 </style>
 
 <div class="container py-4">
     <div class="page-title">
-        <div>
-            <h2 class="mb-1">Расписание занятий по преподавателям</h2>
-        </div>
-
-        <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-galaxy">
-            Назад к модулю расписания
-        </a>
+        <div><h2 class="mb-1">Расписание занятий по преподавателям</h2></div>
+        <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-galaxy">Назад к модулю расписания</a>
     </div>
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success mb-3">
-            @TempData["SuccessMessage"]
-        </div>
+        <div class="alert alert-success mb-3">@TempData["SuccessMessage"]</div>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger mb-3">
-            @TempData["ErrorMessage"]
-        </div>
+        <div class="alert alert-danger mb-3">@TempData["ErrorMessage"]</div>
     }
+
     <div class="sch-topbar">
         <div class="sch-left">
             <button class="btn-icon" id="prevDay" title="Назад">‹</button>
-
-            <div class="datebox" title="Дата">
-                <input type="date" id="date" />
-            </div>
-
+            <div class="datebox"><input type="date" id="date" /></div>
             <button class="btn-icon" id="nextDay" title="Вперёд">›</button>
 
             <div class="filters">
-                <select id="filterTeacher">
-                    <option value="">Преподаватель: все</option>
-                </select>
-
-                <select id="filterGroup">
-                    <option value="">Группа: все</option>
-                </select>
-
-                <select id="filterRoom">
-                    <option value="">Аудитория: все</option>
-                </select>
+                <select id="filterTeacher"><option value="">Преподаватель: все</option></select>
+                <select id="filterGroup"><option value="">Группа: все</option></select>
+                <select id="filterRoom"><option value="">Аудитория: все</option></select>
             </div>
         </div>
 
@@ -368,16 +174,17 @@
         const rooms = @Html.Raw(JsonSerializer.Serialize(Model.Classrooms));
 
         const lessons = @Html.Raw(JsonSerializer.Serialize(
-        Model.Lessons.Select(x => new
-        {
-        teacher = x.TeacherName,
-        pair = x.PairNumber,
-        type = x.TypeName,
-        title = x.Subject,
-        room = x.ClassroomNumber,
-        group = x.GroupName,
-        subgroup = x.Subgroup
-        })));
+            Model.Lessons.Select(x => new
+            {
+                teacher = x.TeacherName,
+                pair = x.PairNumber,
+                type = x.TypeName,
+                title = x.Subject,
+                room = x.ClassroomNumber,
+                group = x.GroupName,
+                subgroup = x.Subgroup,
+                isImported = x.IsImported
+            })));
 
         const elTable = document.getElementById("table");
         const elDate = document.getElementById("date");
@@ -449,9 +256,11 @@
                 .filter(x => !fGroup || x.group === fGroup)
                 .filter(x => !fRoom || x.room === fRoom);
 
-            const teacherRows = teachers.filter(t =>
-                filteredLessons.some(x => x.teacher === t)
-            );
+            const teacherRows = teachers.filter(t => {
+                if (fTeacher && t !== fTeacher) return false;
+                if (!fGroup && !fRoom) return true;
+                return filteredLessons.some(x => x.teacher === t);
+            });
 
             for (const t of teacherRows) {
                 const rowLabel = document.createElement("div");
@@ -463,21 +272,19 @@
                     const slot = document.createElement("div");
                     slot.className = "slot";
 
-                    const inCell = filteredLessons
-                        .filter(x => x.teacher === t && x.pair === p.no);
+                    const inCell = filteredLessons.filter(x => x.teacher === t && x.pair === p.no);
 
                     for (const l of inCell) {
                         const card = document.createElement("div");
-                        card.className = "lesson" + (l.subgroup ? " lesson-subgroup" : "");
-
+                        card.className = "lesson" + (!l.isImported ? " lesson-manual" : "");
                         card.innerHTML = `
-                                    <div class="type">${escapeHtml(mapType(l.type ?? ""))}</div>
-                                    ${l.subgroup ? `<div class="subgroup">${escapeHtml(l.subgroup)}</div>` : ""}
-                                    <div class="title">${escapeHtml(l.title ?? "")}</div>
-                                    <div class="meta"><b>Ауд.</b><br>${escapeHtml(l.room ?? "")}</div>
-                                    <div class="meta"><b>Группа</b><br>${escapeHtml(l.group ?? "")}</div>
-                                `;
-
+                            <div class="type">${escapeHtml(mapType(l.type ?? ""))}</div>
+                            ${!l.isImported ? `<div class="manual-badge">Бронь</div>` : ""}
+                            ${l.subgroup ? `<div class="subgroup">${escapeHtml(l.subgroup)}</div>` : ""}
+                            <div class="title">${escapeHtml(l.title ?? "")}</div>
+                            <div class="meta"><b>Ауд.</b><br>${escapeHtml(l.room ?? "")}</div>
+                            <div class="meta"><b>Группа</b><br>${escapeHtml(l.group ?? "")}</div>
+                        `;
                         slot.appendChild(card);
                     }
 

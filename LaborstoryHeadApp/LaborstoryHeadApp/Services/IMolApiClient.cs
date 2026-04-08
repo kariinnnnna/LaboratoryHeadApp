@@ -38,5 +38,16 @@ namespace MOLServiceWebClient
         Task<bool> CreateMaterialTechnicalValueAsync(MaterialTechnicalValueBindingModel model);
         Task<bool> UpdateMaterialTechnicalValueAsync(MaterialTechnicalValueBindingModel model);
         Task<bool> DeleteMaterialTechnicalValueAsync(int id);
+        Task<bool> CreateEquipmentMovementHistoryAsync(EquipmentMovementHistoryBindingModel model);
+        Task<List<EquipmentMovementHistoryViewModel>?> GetEquipmentMovementHistoriesAsync();
+
+        Task<List<SoftwareRecordViewModel>?> GetSoftwareRecordsAsync();
+        Task<List<SoftwareRecordViewModel>?> GetSoftwareRecordsByMaterialTechnicalValueAsync(int materialTechnicalValueId);
+        Task<SoftwareRecordViewModel?> GetSoftwareRecordAsync(int id);
+        Task<bool> CreateSoftwareRecordAsync(SoftwareRecordBindingModel model);
+        Task<bool> UpdateSoftwareRecordAsync(SoftwareRecordBindingModel model);
+        Task<bool> DeleteSoftwareRecordAsync(int id);
+
+        Task<bool> ImportClassroomsFromCoreAsync();
     }
 }

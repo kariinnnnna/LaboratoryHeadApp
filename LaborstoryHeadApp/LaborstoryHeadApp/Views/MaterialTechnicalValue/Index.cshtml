@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Материально-технические ценности";
     Layout = "_Layout";
+
+    var currentPage = ViewBag.CurrentPage as int? ?? 1;
+    var totalPages = ViewBag.TotalPages as int? ?? 1;
+    var pageSize = ViewBag.PageSize as int? ?? 10;
 }
 
 <style>
@@ -10,6 +14,7 @@
         --galaxy: #0B1F5C;
         --planetary: #334EAC;
         --danger-soft: #dc3545;
+        --line: rgba(11, 31, 92, .15);
     }
 
     .btn-galaxy {
@@ -56,6 +61,33 @@
         white-space: nowrap;
         width: 1%;
     }
+
+    .pagination .page-link {
+        color: var(--galaxy);
+        border-color: var(--line);
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: var(--galaxy);
+        border-color: var(--galaxy);
+        color: #fff;
+    }
+
+    .pagination .page-item.disabled .page-link {
+        color: #6c757d;
+    }
+
+    .page-size-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+        .page-size-form .form-select {
+            width: auto;
+            min-width: 90px;
+        }
 </style>
 
 <div class="container py-4">
@@ -91,6 +123,17 @@
             }
             else
             {
+                @*<form method="get" asp-action="Index" class="page-size-form">
+                    <label for="pageSize" class="form-label mb-0">Показывать по:</label>
+                    <select id="pageSize" name="pageSize" class="form-select" onchange="this.form.submit()">
+                        <option value="5" selected="@(pageSize == 5)">5</option>
+                        <option value="10" selected="@(pageSize == 10)">10</option>
+                        <option value="20" selected="@(pageSize == 20)">20</option>
+                        <option value="50" selected="@(pageSize == 50)">50</option>
+                    </select>
+                    <input type="hidden" name="page" value="1" />
+                </form>*@
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle mb-0">
                         <thead>
@@ -101,7 +144,6 @@
                                 <th>Аудитория</th>
                                 <th>МОЛ</th>
                                 <th>Местоположение</th>
-                                <th>Стоимость</th>
                                 <th class="actions-cell">Действия</th>
                             </tr>
                         </thead>
@@ -115,14 +157,13 @@
                                     <td>@(string.IsNullOrWhiteSpace(item.ClassroomNumber) ? "Не закреплено" : item.ClassroomNumber)</td>
                                     <td>@item.MaterialResponsiblePersonName</td>
                                     <td>@item.Location</td>
-                                    <td>@item.Cost</td>
                                     <td class="actions-cell">
                                         <div class="d-flex gap-2">
                                             <a asp-controller="MaterialTechnicalValue"
                                        asp-action="Details"
                                        asp-route-id="@item.Id"
                                        class="btn btn-sm btn-outline-galaxy">
-                                                Карточка
+                                                Детали
                                             </a>
 
                                             <a asp-controller="MaterialTechnicalValue"
@@ -148,6 +189,43 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if (totalPages > 1)
+                {
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                                <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(currentPage - 1)"
+                           asp-route-pageSize="@pageSize">
+                                    Назад
+                                </a>
+                            </li>
+
+                            @for (int i = 1; i <= totalPages; i++)
+                            {
+                                <li class="page-item @(i == currentPage ? "active" : "")">
+                                    <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@i"
+                           asp-route-pageSize="@pageSize">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                                <a class="page-link"
+                           asp-action="Index"
+                           asp-route-page="@(currentPage + 1)"
+                           asp-route-pageSize="@pageSize">
+                                    Вперед
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                }
             }
         </div>
     </div>

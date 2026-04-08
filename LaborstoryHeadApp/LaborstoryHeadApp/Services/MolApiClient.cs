@@ -232,6 +232,189 @@ namespace MOLServiceWebClient
 
             return response.IsSuccessStatusCode;
         }
+        public async Task<List<EquipmentMovementHistoryViewModel>?> GetEquipmentMovementHistoriesAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<EquipmentMovementHistoryViewModel>>(
+                "api/EquipmentMovementHistory/GetAll");
+        }
 
+        public async Task<List<EquipmentMovementHistoryViewModel>?> GetEquipmentMovementHistoriesByMaterialTechnicalValueAsync(int materialTechnicalValueId)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/EquipmentMovementHistory/GetFiltered",
+                new EquipmentMovementHistorySearchModel
+                {
+                    MaterialTechnicalValueId = materialTechnicalValueId
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<List<EquipmentMovementHistoryViewModel>>();
+        }
+
+        public async Task<EquipmentMovementHistoryViewModel?> GetEquipmentMovementHistoryAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/EquipmentMovementHistory/GetElement",
+                new EquipmentMovementHistorySearchModel
+                {
+                    Id = id
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<EquipmentMovementHistoryViewModel>();
+        }
+
+        public async Task<bool> CreateEquipmentMovementHistoryAsync(EquipmentMovementHistoryBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/EquipmentMovementHistory/Create",
+                model);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при списании оборудования: {error}");
+            }
+
+            return true;
+        }
+
+        public async Task<bool> UpdateEquipmentMovementHistoryAsync(EquipmentMovementHistoryBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/EquipmentMovementHistory/Update",
+                model);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при обновлении записи списания: {error}");
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteEquipmentMovementHistoryAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/EquipmentMovementHistory/Delete",
+                new EquipmentMovementHistoryBindingModel { Id = id });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при удалении записи списания: {error}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<bool>();
+            return result;
+        }
+        public async Task<List<SoftwareRecordViewModel>?> GetSoftwareRecordsAsync()
+        {
+            return await _httpClient.GetFromJsonAsync<List<SoftwareRecordViewModel>>(
+                "api/SoftwareRecord/GetAll");
+        }
+
+        public async Task<List<SoftwareRecordViewModel>?> GetSoftwareRecordsByMaterialTechnicalValueAsync(int materialTechnicalValueId)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/SoftwareRecord/GetFiltered",
+                new SoftwareRecordSearchModel
+                {
+                    MaterialTechnicalValueId = materialTechnicalValueId
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<List<SoftwareRecordViewModel>>();
+        }
+
+        public async Task<SoftwareRecordViewModel?> GetSoftwareRecordAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/SoftwareRecord/GetElement",
+                new SoftwareRecordSearchModel
+                {
+                    Id = id
+                });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await response.Content.ReadFromJsonAsync<SoftwareRecordViewModel>();
+        }
+
+        public async Task<bool> CreateSoftwareRecordAsync(SoftwareRecordBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/SoftwareRecord/Create",
+                model);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при привязке ПО: {error}");
+            }
+
+            return true;
+        }
+
+        public async Task<bool> UpdateSoftwareRecordAsync(SoftwareRecordBindingModel model)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/SoftwareRecord/Update",
+                model);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при обновлении записи ПО: {error}");
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteSoftwareRecordAsync(int id)
+        {
+            var response = await _httpClient.PostAsJsonAsync(
+                "api/SoftwareRecord/Delete",
+                new SoftwareRecordBindingModel { Id = id });
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при удалении записи ПО: {error}");
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<bool>();
+            return result;
+        }
+
+        public async Task<bool> ImportClassroomsFromCoreAsync()
+        {
+            var response = await _httpClient.PostAsync("api/CoreImport/ImportClassrooms", null);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Ошибка API при синхронизации аудиторий: {error}");
+            }
+
+            return true;
+        }
     }
+
 }

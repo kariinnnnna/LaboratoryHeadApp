@@ -18,35 +18,31 @@
         --cell: #fbfcff;
     }
 
-    .page-title {
+    .page-title, .sch-topbar, .sch-left, .sch-right {
         display: flex;
         flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .page-title {
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
         margin-bottom: 12px;
     }
 
     .sch-topbar {
-        display: flex;
         align-items: end;
         justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
         margin-bottom: 14px;
     }
 
     .sch-left {
-        display: flex;
         align-items: center;
         gap: 10px;
-        flex-wrap: wrap;
     }
 
     .sch-right {
-        display: flex;
         gap: 10px;
-        flex-wrap: wrap;
     }
 
     .btn-icon {
@@ -64,39 +60,21 @@
         font-size: 18px;
     }
 
-    .datebox {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-    }
-
-        .datebox input[type="date"] {
-            height: 44px;
-            min-width: 150px;
-            padding: 0 14px;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: #fff;
-            color: var(--ink);
-            font-size: 16px;
-            font-weight: 600;
-            box-shadow: 0 1px 2px rgba(0,0,0,.03);
-        }
-
-            .datebox input[type="date"]:focus {
-                outline: none;
-                border-color: var(--planetary);
-                box-shadow: 0 0 0 3px rgba(51, 78, 172, .12);
-            }
-
-            .datebox input[type="date"]::-webkit-calendar-picker-indicator {
-                cursor: pointer;
-                opacity: .8;
-            }
-
         .btn-icon:hover {
             background: var(--soft);
         }
+
+    .datebox input[type="date"] {
+        height: 44px;
+        min-width: 150px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 16px;
+        font-weight: 600;
+    }
 
     .filters {
         display: flex;
@@ -115,10 +93,7 @@
             border-radius: 10px;
         }
 
-    .btn-galaxy {
-        background-color: var(--galaxy);
-        border: 1px solid var(--galaxy);
-        color: #fff;
+    .btn-galaxy, .btn-outline-galaxy {
         border-radius: 10px;
         height: 38px;
         padding: 0 14px;
@@ -128,6 +103,12 @@
         white-space: nowrap;
         transition: .15s;
         text-decoration: none;
+    }
+
+    .btn-galaxy {
+        background-color: var(--galaxy);
+        border: 1px solid var(--galaxy);
+        color: #fff;
     }
 
         .btn-galaxy:hover {
@@ -140,15 +121,6 @@
         color: var(--galaxy);
         border: 1px solid var(--galaxy);
         background: #fff;
-        border-radius: 10px;
-        height: 38px;
-        padding: 0 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        white-space: nowrap;
-        transition: .15s;
-        text-decoration: none;
     }
 
         .btn-outline-galaxy:hover {
@@ -185,8 +157,7 @@
         min-height: 62px;
     }
 
-        .headcell div,
-        .headcell small {
+        .headcell div, .headcell small {
             white-space: nowrap;
         }
 
@@ -227,17 +198,19 @@
 
     .lesson {
         border: 1px solid rgba(11, 31, 92, .14);
-        padding: 8px 9px;
+        padding: 8px 8px 7px;
         background: #fff;
         border-radius: 12px;
-        line-height: 1.2;
+        line-height: 1.15;
         box-sizing: border-box;
         box-shadow: 0 1px 2px rgba(0,0,0,.03);
+        overflow-wrap: anywhere;
+        word-break: break-word;
     }
 
-    .lesson-subgroup {
-        border-left: 4px solid var(--planetary);
-        background: linear-gradient(0deg, rgba(208,227,255,.35), rgba(208,227,255,.35)), #fff;
+    .lesson-manual {
+        background: linear-gradient(0deg, rgba(255, 244, 214, .85), rgba(255, 244, 214, .85)), #fff;
+        border-color: rgba(217, 119, 6, .35);
     }
 
     .lesson .type {
@@ -253,13 +226,21 @@
         margin-bottom: 6px;
     }
 
-    .lesson .subgroup {
+    .lesson .manual-badge, .lesson .subgroup {
         display: inline-flex;
         margin: 0 0 6px 0;
         padding: 2px 8px;
         border-radius: 999px;
         font-size: 11px;
         font-weight: 700;
+    }
+
+    .lesson .manual-badge {
+        background: #fff3cd;
+        color: #92400e;
+    }
+
+    .lesson .subgroup {
         background: #eef2ff;
         color: #334155;
     }
@@ -269,70 +250,47 @@
         margin-bottom: 6px;
         color: #0f172a;
         font-size: 11px;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
         word-break: break-word;
     }
 
     .lesson .meta {
-        font-size: 12px;
+        font-size: 11px;
         color: #475569;
         margin-top: 2px;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
         word-break: break-word;
-    }
-
-    .lesson-empty {
-        border: 1px dashed rgba(11,31,92,.12);
-        border-radius: 12px;
-        min-height: 54px;
-        background: rgba(255,255,255,.55);
     }
 </style>
 
 <div class="container py-4">
     <div class="page-title">
-        <div>
-            <h2 class="mb-1">Расписание занятий по группам</h2>
-        </div>
-
-        <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-galaxy">
-            Назад к модулю расписания
-        </a>
+        <div><h2 class="mb-1">Расписание занятий по группам</h2></div>
+        <a asp-controller="Schedule" asp-action="Index" class="btn btn-outline-galaxy">Назад к модулю расписания</a>
     </div>
+
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success mb-3">
-            @TempData["SuccessMessage"]
-        </div>
+        <div class="alert alert-success mb-3">@TempData["SuccessMessage"]</div>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger mb-3">
-            @TempData["ErrorMessage"]
-        </div>
+        <div class="alert alert-danger mb-3">@TempData["ErrorMessage"]</div>
     }
 
     <div class="sch-topbar">
         <div class="sch-left">
             <button class="btn-icon" id="prevDay" title="Назад">‹</button>
-
-            <div class="datebox" title="Дата">
-                <input type="date" id="date" />
-            </div>
-
+            <div class="datebox"><input type="date" id="date" /></div>
             <button class="btn-icon" id="nextDay" title="Вперёд">›</button>
 
             <div class="filters">
-                <select id="filterGroup">
-                    <option value="">Группа: все</option>
-                </select>
-
-                <select id="filterRoom">
-                    <option value="">Аудитория: все</option>
-                </select>
-
-                <select id="filterTeacher">
-                    <option value="">Преподаватель: все</option>
-                </select>
+                <select id="filterGroup"><option value="">Группа: все</option></select>
+                <select id="filterRoom"><option value="">Аудитория: все</option></select>
+                <select id="filterTeacher"><option value="">Преподаватель: все</option></select>
             </div>
         </div>
 
@@ -378,7 +336,8 @@
         title = x.Subject,
         room = x.ClassroomNumber,
         teacher = x.TeacherName,
-        subgroup = x.Subgroup
+        subgroup = x.Subgroup,
+        isImported = x.IsImported
         })));
 
         const elTable = document.getElementById("table");
@@ -451,9 +410,11 @@
                 .filter(x => !fRoom || x.room === fRoom)
                 .filter(x => !fTeacher || x.teacher === fTeacher);
 
-            const groupRows = groups.filter(g =>
-                filteredLessons.some(x => x.group === g)
-            );
+            const groupRows = groups.filter(g => {
+                if (fGroup && g !== fGroup) return false;
+                if (!fRoom && !fTeacher) return true;
+                return filteredLessons.some(x => x.group === g);
+            });
 
             for (const g of groupRows) {
                 const rowLabel = document.createElement("div");
@@ -465,21 +426,19 @@
                     const slot = document.createElement("div");
                     slot.className = "slot";
 
-                    const inCell = filteredLessons
-                        .filter(x => x.group === g && x.pair === p.no);
+                    const inCell = filteredLessons.filter(x => x.group === g && x.pair === p.no);
 
                     for (const l of inCell) {
                         const card = document.createElement("div");
-                        card.className = "lesson" + (l.subgroup ? " lesson-subgroup" : "");
-
+                        card.className = "lesson" + (!l.isImported ? " lesson-manual" : "");
                         card.innerHTML = `
-                            <div class="type">${escapeHtml(mapType(l.type ?? ""))}</div>
-                            ${l.subgroup ? `<div class="subgroup">${escapeHtml(l.subgroup)}</div>` : ""}
-                            <div class="title">${escapeHtml(l.title ?? "")}</div>
-                            <div class="meta"><b>Ауд.</b> ${escapeHtml(l.room ?? "")}</div>
-                            <div class="meta"><b>Преп.</b> ${escapeHtml(l.teacher ?? "")}</div>
-                        `;
-
+                                    <div class="type">${escapeHtml(mapType(l.type ?? ""))}</div>
+                                    ${!l.isImported ? `<div class="manual-badge">Бронь</div>` : ""}
+                                    ${l.subgroup ? `<div class="subgroup">${escapeHtml(l.subgroup)}</div>` : ""}
+                                    <div class="title">${escapeHtml(l.title ?? "")}</div>
+                                    <div class="meta"><b>Ауд.</b><br>${escapeHtml(l.room ?? "")}</div>
+                                    <div class="meta"><b>Преп.</b><br>${escapeHtml(l.teacher ?? "")}</div>
+                                `;
                         slot.appendChild(card);
                     }
 

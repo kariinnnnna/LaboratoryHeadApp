@@ -36,6 +36,12 @@
             background-color: var(--galaxy);
             color: #fff;
         }
+
+    .info-note {
+        color: #6c757d;
+        font-size: .95rem;
+        margin-bottom: 16px;
+    }
 </style>
 
 <div class="container py-4">
@@ -46,14 +52,13 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
+            <div class="info-note">
+                Идентификатор Core System не редактируется.
+            </div>
+
             <form asp-action="Edit" method="post">
                 <input asp-for="Id" type="hidden" />
-
-                <div class="mb-3">
-                    <label asp-for="CoreSystemId" class="form-label"></label>
-                    <input asp-for="CoreSystemId" class="form-control" />
-                    <span asp-validation-for="CoreSystemId" class="text-danger"></span>
-                </div>
+                <input asp-for="CoreSystemId" type="hidden" />
 
                 <div class="mb-3">
                     <label asp-for="Number" class="form-label"></label>

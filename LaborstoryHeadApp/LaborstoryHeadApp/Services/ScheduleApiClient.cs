@@ -184,4 +184,136 @@ public class ScheduleApiClient : IScheduleApiClient
         return await response.Content.ReadFromJsonAsync<ScheduleItemViewModel>();
     }
 
+    public async Task<List<GroupViewModel>?> GetGroupsAsync()
+    {
+        return await _client.GetFromJsonAsync<List<GroupViewModel>>("api/Group/GetAll");
+    }
+
+    public async Task<List<TeacherViewModel>?> GetTeachersAsync()
+    {
+        return await _client.GetFromJsonAsync<List<TeacherViewModel>>("api/Teacher/GetAll");
+    }
+    public async Task<TeacherViewModel?> GetTeacherAsync(int id)
+    {
+        var response = await _client.PostAsJsonAsync(
+            "api/Teacher/GetElement",
+            new TeacherSearchModel { Id = id });
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        return await response.Content.ReadFromJsonAsync<TeacherViewModel>();
+    }
+
+    public async Task<bool> UpdateTeacherAsync(TeacherBindingModel model)
+    {
+        var response = await _client.PostAsJsonAsync("api/Teacher/Update", model);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при обновлении преподавателя: {errorText}");
+        }
+
+        return true;
+    }
+
+    public async Task<bool> DeleteTeacherAsync(int id)
+    {
+        var response = await _client.PostAsJsonAsync(
+            "api/Teacher/Delete",
+            new TeacherBindingModel { Id = id });
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при удалении преподавателя: {errorText}");
+        }
+
+        return await response.Content.ReadFromJsonAsync<bool>();
+    }
+
+    public async Task<bool> ImportTeachersFromCoreAsync()
+    {
+        var response = await _client.PostAsync("api/CoreImport/ImportTeachers", null);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при синхронизации преподавателей: {errorText}");
+        }
+
+        return true;
+    }
+
+    public async Task<GroupViewModel?> GetGroupAsync(int id)
+    {
+        var response = await _client.PostAsJsonAsync(
+            "api/Group/GetElement",
+            new GroupSearchModel { Id = id });
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        return await response.Content.ReadFromJsonAsync<GroupViewModel>();
+    }
+
+    public async Task<bool> UpdateGroupAsync(GroupBindingModel model)
+    {
+        var response = await _client.PostAsJsonAsync("api/Group/Update", model);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при обновлении группы: {errorText}");
+        }
+
+        return true;
+    }
+
+    public async Task<bool> DeleteGroupAsync(int id)
+    {
+        var response = await _client.PostAsJsonAsync(
+            "api/Group/Delete",
+            new GroupBindingModel { Id = id });
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при удалении группы: {errorText}");
+        }
+
+        return await response.Content.ReadFromJsonAsync<bool>();
+    }
+
+    public async Task<bool> ImportGroupsFromCoreAsync()
+    {
+        var response = await _client.PostAsync("api/CoreImport/ImportGroups", null);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при синхронизации групп: {errorText}");
+        }
+
+        return true;
+    }
+
+    public async Task<bool> ImportAllFromCoreAsync()
+    {
+        var response = await _client.PostAsync("api/CoreImport/ImportAll", null);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorText = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Ошибка API при общей синхронизации: {errorText}");
+        }
+
+        return true;
+    }
+
 }

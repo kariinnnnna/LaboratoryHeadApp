@@ -26,5 +26,19 @@ public interface IScheduleApiClient
     Task<DutyScheduleViewModel?> UpdateDutyScheduleAsync(DutyScheduleBindingModel model);
     Task<ScheduleItemViewModel?> CreateScheduleItemAsync(ScheduleItemBindingModel model);
 
+    Task<List<GroupViewModel>?> GetGroupsAsync();
+    Task<List<TeacherViewModel>?> GetTeachersAsync();
+
+    Task<TeacherViewModel?> GetTeacherAsync(int id);
+    Task<bool> UpdateTeacherAsync(TeacherBindingModel model);
+    Task<bool> DeleteTeacherAsync(int id);
+    Task<bool> ImportTeachersFromCoreAsync();
+
+    Task<GroupViewModel?> GetGroupAsync(int id);
+    Task<bool> UpdateGroupAsync(GroupBindingModel model);
+    Task<bool> DeleteGroupAsync(int id);
+    Task<bool> ImportGroupsFromCoreAsync();
+    Task<bool> ImportAllFromCoreAsync();
+
 
 }
