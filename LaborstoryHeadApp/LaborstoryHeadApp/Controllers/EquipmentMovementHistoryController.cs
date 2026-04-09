@@ -76,10 +76,18 @@ namespace LaboratoryHeadApp.Controllers
                 return View(model);
             }
 
-            var result = await _client.CreateEquipmentMovementHistoryAsync(model);
-            if (!result)
+            try
             {
-                ModelState.AddModelError(string.Empty, "Не удалось выполнить списание оборудования");
+                var result = await _client.CreateEquipmentMovementHistoryAsync(model);
+                if (!result)
+                {
+                    ModelState.AddModelError(string.Empty, "Не удалось выполнить списание оборудования");
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return View(model);
             }
 

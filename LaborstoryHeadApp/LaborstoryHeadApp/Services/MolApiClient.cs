@@ -53,7 +53,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при удалении аудитории: {error}");
+                throw new Exception($"Ошибка при удалении аудитории: {error}");
             }
 
             var result = await response.Content.ReadFromJsonAsync<bool>();
@@ -90,7 +90,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при создании МОЛ: {error}");
+                throw new Exception($"Ошибка при создании МОЛ: {error}");
             }
 
             return true;
@@ -105,7 +105,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при обновлении МОЛ: {error}");
+                throw new Exception($"Ошибка при обновлении МОЛ: {error}");
             }
 
             return true;
@@ -120,7 +120,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при удалении МОЛ: {error}");
+                throw new Exception($"Ошибка при удалении МОЛ: {error}");
             }
 
             var result = await response.Content.ReadFromJsonAsync<bool>();
@@ -169,7 +169,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при удалении ПО: {error}");
+                throw new Exception($"Ошибка при удалении ПО: {error}");
             }
 
             var result = await response.Content.ReadFromJsonAsync<bool>();
@@ -281,7 +281,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при списании оборудования: {error}");
+                throw new Exception($"Ошибка при списании оборудования: {error}");
             }
 
             return true;
@@ -296,7 +296,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при обновлении записи списания: {error}");
+                throw new Exception($"Ошибка при обновлении записи списания: {error}");
             }
 
             return true;
@@ -311,7 +311,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при удалении записи списания: {error}");
+                throw new Exception($"Ошибка при удалении записи списания: {error}");
             }
 
             var result = await response.Content.ReadFromJsonAsync<bool>();
@@ -366,7 +366,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при привязке ПО: {error}");
+                throw new Exception($"Ошибка при привязке ПО: {error}");
             }
 
             return true;
@@ -381,7 +381,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при обновлении записи ПО: {error}");
+                throw new Exception($"Ошибка при обновлении записи ПО: {error}");
             }
 
             return true;
@@ -396,7 +396,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при удалении записи ПО: {error}");
+                throw new Exception($"Ошибка при удалении записи ПО: {error}");
             }
 
             var result = await response.Content.ReadFromJsonAsync<bool>();
@@ -410,7 +410,7 @@ namespace MOLServiceWebClient
             if (!response.IsSuccessStatusCode)
             {
                 var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Ошибка API при синхронизации аудиторий: {error}");
+                throw new Exception($"Ошибка при синхронизации аудиторий: {error}");
             }
 
             return true;

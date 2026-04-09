@@ -126,7 +126,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при создании графика дежурств: {errorText}");
+            throw new Exception($"Ошибка при создании графика дежурств: {errorText}");
         }
 
         return await response.Content.ReadFromJsonAsync<DutyScheduleViewModel>();
@@ -139,7 +139,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при обновлении графика дежурств: {errorText}");
+            throw new Exception($"Ошибка при обновлении графика дежурств: {errorText}");
         }
 
         return await response.Content.ReadFromJsonAsync<DutyScheduleViewModel>();
@@ -154,7 +154,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при удалении графика дежурств: {errorText}");
+            throw new Exception($"Ошибка при удалении графика дежурств: {errorText}");
         }
 
         return await response.Content.ReadFromJsonAsync<bool>();
@@ -168,7 +168,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при синхронизации расписания: {errorText}");
+            throw new Exception($"Ошибка при синхронизации расписания: {errorText}");
         }
     }
     public async Task<ScheduleItemViewModel?> CreateScheduleItemAsync(ScheduleItemBindingModel model)
@@ -214,7 +214,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при обновлении преподавателя: {errorText}");
+            throw new Exception($"Ошибка при обновлении преподавателя: {errorText}");
         }
 
         return true;
@@ -229,7 +229,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при удалении преподавателя: {errorText}");
+            throw new Exception($"Ошибка при удалении преподавателя: {errorText}");
         }
 
         return await response.Content.ReadFromJsonAsync<bool>();
@@ -242,7 +242,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при синхронизации преподавателей: {errorText}");
+            throw new Exception($"Ошибка при синхронизации преподавателей: {errorText}");
         }
 
         return true;
@@ -269,7 +269,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при обновлении группы: {errorText}");
+            throw new Exception($"Ошибка при обновлении группы: {errorText}");
         }
 
         return true;
@@ -284,7 +284,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при удалении группы: {errorText}");
+            throw new Exception($"Ошибка при удалении группы: {errorText}");
         }
 
         return await response.Content.ReadFromJsonAsync<bool>();
@@ -297,7 +297,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при синхронизации групп: {errorText}");
+            throw new Exception($"Ошибка при синхронизации групп: {errorText}");
         }
 
         return true;
@@ -310,7 +310,7 @@ public class ScheduleApiClient : IScheduleApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorText = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Ошибка API при общей синхронизации: {errorText}");
+            throw new Exception($"Ошибка при общей синхронизации: {errorText}");
         }
 
         return true;

@@ -106,7 +106,7 @@
                 <div class="mb-3">
                     <label asp-for="SoftwareId" class="form-label">Программное обеспечение</label>
                     <select asp-for="SoftwareId" asp-items="ViewBag.Softwares" class="form-select">
-                        <option value="">Выберите ПО</option>
+                        <option value="0">Выберите ПО</option>
                     </select>
                     <span asp-validation-for="SoftwareId" class="text-danger"></span>
                 </div>
@@ -139,3 +139,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

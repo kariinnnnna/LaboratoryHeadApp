@@ -53,7 +53,7 @@ namespace LaboratoryHeadApp.Controllers
                 return NotFound();
             }
 
-            var softwares = await _client.GetSoftwaresAsync() ?? new List<SoftwareViewModel>();
+            var softwares = await _client.GetSoftwaresAsync() ?? new List<MolServiceContracts.ViewModels.SoftwareViewModel>();
 
             ViewBag.MaterialTechnicalValueName = equipment.FullName;
             ViewBag.InventoryNumber = equipment.InventoryNumber;
@@ -66,6 +66,12 @@ namespace LaboratoryHeadApp.Controllers
 
             if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            if (model.SoftwareId <= 0)
+            {
+                ModelState.AddModelError(nameof(model.SoftwareId), "Выберите программное обеспечение");
                 return View(model);
             }
 
